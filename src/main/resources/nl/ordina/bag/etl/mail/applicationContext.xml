@@ -22,25 +22,7 @@
 
 	<import resource="classpath:nl/ordina/bag/etl/mail/applicationConfig.xml" />
 	<import resource="classpath:nl/ordina/bag/etl/applicationContext.xml" />
-	
-	<!--bean id="messageHandler" class="nl.ordina.bag.etl.mail.handler.TestMessageHandler"/-->
 
-	<bean id="messageHandler" class="nl.ordina.bag.etl.mail.handler.MessageHandler" init-method="init">
-		<property name="mutatiesFileLoader" ref="mutatiesFileLoader"/>
-		<property name="fromAddressRegEx" value="${mail.fromAdressRegEx}"/>
-		<property name="subjectRegEx" value="${mail.subjectRegEx}"/>
-		<property name="urlRegEx" value="${mail.urlRegEx}"/>
-	</bean>
-	
-	<bean id="mutatiesFileLoader" class="nl.ordina.bag.etl.mail.loader.MutatiesFileLoaderFactory">
-		<property name="messageHandler" ref="messageHandler"/>
-		<property name="protocol" value="${mail.protocol}"/>
-		<property name="host" value="${mail.host}"/>
-		<property name="port" value="${mail.port}"/>
-		<property name="username" value="${mail.username}"/>
-		<property name="password" value="${mail.password}"/>
-		<property name="folder" value="${mail.imap.folder}"/>
-		<property name="backupPath" value="${mail.pop3.backupPath}"/>
-	</bean>
+	<import resource="classpath:nl/ordina/bag/etl/mail/mutaties.xml" />
 	
 </beans>
