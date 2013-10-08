@@ -13,25 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package nl.ordina.bag.etl.mail;
+package nl.ordina.bag.etl.mail.loader;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.xml.bind.JAXBException;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-public class TestMessageHandler extends MessageHandler
+public interface MailProcessor
 {
-	protected transient Log logger = LogFactory.getLog(this.getClass());
 
-	@Override
-	public void handle(Message message) throws FileNotFoundException, IOException, MessagingException, JAXBException
-	{
-		logger.info(message.getSubject());
-	}
+	public abstract void processMessages();
+
 }

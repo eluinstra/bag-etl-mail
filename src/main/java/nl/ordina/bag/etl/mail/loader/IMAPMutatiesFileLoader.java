@@ -13,13 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package nl.ordina.bag.etl.mail;
+package nl.ordina.bag.etl.mail.loader;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Properties;
-import java.util.UUID;
 
 import javax.mail.Flags;
 import javax.mail.Folder;
@@ -27,16 +24,18 @@ import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.Store;
+import javax.mail.search.FlagTerm;
 import javax.xml.bind.JAXBException;
 
+import nl.ordina.bag.etl.mail.handler.MessageHandler;
+import nl.ordina.bag.etl.mail.handler.TestMessageHandler;
 import nl.ordina.bag.etl.processor.ProcessingException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-public class POP3MailProcessor implements MailProcessor
+public class IMAPMutatiesFileLoader implements MailProcessor
 {
-  private static String folderName = "INBOX";
 	protected transient Log logger = LogFactory.getLog(this.getClass());
 	private MessageHandler messageHandler;
   private String protocol;
@@ -44,9 +43,9 @@ public class POP3MailProcessor implements MailProcessor
   private int port;
   private String username;
   private String password;
-	private String backupPath;
+  private String folderName;
 
-	@Override
+  @Override
 	public void processMessages()
 	{
 	  try
@@ -65,12 +64,12 @@ public class POP3MailProcessor implements MailProcessor
 
 			try
 			{
-				Message[] messages = folder.getMessages();
+        FlagTerm ft = new FlagTerm(new Flags(Flags.Flag.SEEN),false);
+        Message messages[] = folder.search(ft);
 				for (Message message : messages)
 				{
-					backup(message);
 					messageHandler.handle(message);
-					message.setFlags(new Flags(Flags.Flag.DELETED),true);
+					message.setFlags(new Flags(Flags.Flag.SEEN),true);
 				}
 			}
 			finally
@@ -84,12 +83,6 @@ public class POP3MailProcessor implements MailProcessor
 			throw new ProcessingException(e);
 		}
   }
-
-	private void backup(Message message) throws FileNotFoundException, IOException, MessagingException
-	{
-		String filename = UUID.randomUUID().toString().concat(".txt");
-		message.writeTo(new FileOutputStream(backupPath.concat(filename)));
-	}
 
 	public void setMessageHandler(MessageHandler messageHandler)
 	{
@@ -121,22 +114,21 @@ public class POP3MailProcessor implements MailProcessor
 		this.password = password;
 	}
 	
-	public void setBackupPath(String backupPath)
+	public void setFolderName(String folderName)
 	{
-		this.backupPath = backupPath;
+		this.folderName = folderName;
 	}
 
 	public static void main(String[] args)
 	{
-		POP3MailProcessor mailProcessor = new POP3MailProcessor(); 
+		IMAPMutatiesFileLoader mailProcessor = new IMAPMutatiesFileLoader(); 
 		mailProcessor.setMessageHandler(new TestMessageHandler());
-		mailProcessor.setProtocol("pop3");
+		mailProcessor.setProtocol("imaps");
 		mailProcessor.setHost("localhost");
-		mailProcessor.setPort(110);
+		mailProcessor.setPort(993);
 		mailProcessor.setUsername("username");
 		mailProcessor.setPassword("password");
-		mailProcessor.setBackupPath("h:/backup/");
+		mailProcessor.setFolderName("Inbox");
 		mailProcessor.processMessages();
 	}
-	
 }

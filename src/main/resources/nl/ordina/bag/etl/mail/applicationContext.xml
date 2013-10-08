@@ -21,18 +21,18 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<import resource="classpath:nl/ordina/bag/etl/mail/applicationConfig.xml" />
-	<import resource="classpath:nl/ordina/bag/etl/mutaties.xml" />
+	<import resource="classpath:nl/ordina/bag/etl/applicationContext.xml" />
 	
-	<!--bean id="messageHandler" class="nl.ordina.bag.etl.mail.TestMessageHandler"/-->
+	<!--bean id="messageHandler" class="nl.ordina.bag.etl.mail.handler.TestMessageHandler"/-->
 
-	<bean id="messageHandler" class="nl.ordina.bag.etl.mail.MessageHandler" init-method="init">
-		<property name="mutatiesFileService" ref="mutatiesFileService"/>
+	<bean id="messageHandler" class="nl.ordina.bag.etl.mail.handler.MessageHandler" init-method="init">
+		<property name="mutatiesFileLoader" ref="mutatiesFileLoader"/>
 		<property name="fromAddressRegEx" value="${mail.fromAdressRegEx}"/>
 		<property name="subjectRegEx" value="${mail.subjectRegEx}"/>
 		<property name="urlRegEx" value="${mail.urlRegEx}"/>
 	</bean>
 	
-	<bean id="mailProcessor" class="nl.ordina.bag.etl.mail.MailProcessorFactory">
+	<bean id="mutatiesFileLoader" class="nl.ordina.bag.etl.mail.loader.MutatiesFileLoaderFactory">
 		<property name="messageHandler" ref="messageHandler"/>
 		<property name="protocol" value="${mail.protocol}"/>
 		<property name="host" value="${mail.host}"/>

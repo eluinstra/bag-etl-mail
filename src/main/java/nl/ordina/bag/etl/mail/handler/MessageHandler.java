@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package nl.ordina.bag.etl.mail;
+package nl.ordina.bag.etl.mail.handler;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -40,16 +40,16 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 import javax.xml.bind.JAXBException;
 
-import nl.ordina.bag.etl.service.MutatiesFileService;
+import nl.ordina.bag.etl.loader.MutatiesFileLoader;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-class MessageHandler
+public class MessageHandler
 {
 	protected transient Log logger = LogFactory.getLog(this.getClass());
-	private MutatiesFileService mutatiesFileService;
+	private MutatiesFileLoader mutatiesFileLoader;
 	private String fromAddressRegEx;
 	private String subjectRegEx;
 	private String urlRegEx;
@@ -105,7 +105,7 @@ class MessageHandler
 			if (url != null)
 			{
 				File mutatiesFile = downloadFile(url);
-				mutatiesFileService.importMutatiesFile(mutatiesFile);
+				mutatiesFileLoader.execute(mutatiesFile);
 				//mutatiesFile.delete();
 			}
 			else
@@ -175,9 +175,9 @@ class MessageHandler
 		return result;
 	}
 
-	public void setMutatiesFileService(MutatiesFileService mutatiesFileService)
+	public void setMutatiesFileLoader(MutatiesFileLoader mutatiesFileLoader)
 	{
-		this.mutatiesFileService = mutatiesFileService;
+		this.mutatiesFileLoader = mutatiesFileLoader;
 	}
 	
 	public void setFromAddressRegEx(String fromAddressRegEx)

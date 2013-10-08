@@ -13,11 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package nl.ordina.bag.etl.mail;
+package nl.ordina.bag.etl.mail.loader;
+
+import nl.ordina.bag.etl.mail.handler.MessageHandler;
 
 import org.springframework.beans.factory.FactoryBean;
 
-public class MailProcessorFactory implements FactoryBean<MailProcessor>
+public class MutatiesFileLoaderFactory implements FactoryBean<MailProcessor>
 {
 	private MessageHandler messageHandler;
   private String protocol;
@@ -33,7 +35,7 @@ public class MailProcessorFactory implements FactoryBean<MailProcessor>
 	{
 		if ("pop3".equals(protocol) || "pop3s".equals(protocol))
 		{
-			POP3MailProcessor mailProcessor = new POP3MailProcessor(); 
+			POP3MutatiesFileLoader mailProcessor = new POP3MutatiesFileLoader(); 
 			mailProcessor.setMessageHandler(messageHandler);
 			mailProcessor.setProtocol(protocol);
 			mailProcessor.setHost(host);
@@ -45,7 +47,7 @@ public class MailProcessorFactory implements FactoryBean<MailProcessor>
 		}
 		else if ("imap".equals(protocol) || "imaps".equals(protocol))
 		{
-			IMAPMailProcessor mailProcessor = new IMAPMailProcessor(); 
+			IMAPMutatiesFileLoader mailProcessor = new IMAPMutatiesFileLoader(); 
 			mailProcessor.setMessageHandler(messageHandler);
 			mailProcessor.setProtocol(protocol);
 			mailProcessor.setHost(host);
