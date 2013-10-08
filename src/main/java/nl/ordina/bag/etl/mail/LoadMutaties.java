@@ -34,7 +34,7 @@ public class LoadMutaties
 		{
 			logger.info("LoadMutaties started");
 			BeanLocator beanLocator = BeanLocator.getInstance("nl/ordina/bag/etl/mail/applicationContext.xml");
-			if (args.length == 2)
+			if (args.length == 1)
 				Log4jUtils.setLogLevel("nl.ordina.bag.etl",Level.toLevel(args[0].trim()));
 			MailProcessor mutatiesFileLoader = (MailProcessor)beanLocator.get("mutatiesFileLoader");
 			MutatiesLoader mutatiesLoader = (MutatiesLoader)beanLocator.get("mutatiesLoader");
