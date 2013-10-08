@@ -22,7 +22,10 @@
 
 	<!--bean id="messageHandler" class="nl.ordina.bag.etl.mail.handler.TestMessageHandler"/-->
 
+	<bean id="httpClient" class="nl.ordina.bag.etl.mail.handler.HttpClient"/>
+
 	<bean id="messageHandler" class="nl.ordina.bag.etl.mail.handler.MessageHandler" init-method="init">
+		<property name="httpClient" ref="httpClient"/>
 		<property name="mutatiesFileLoader" ref="mutatiesFileLoader"/>
 		<property name="fromAddressRegEx" value="${mail.fromAdressRegEx}"/>
 		<property name="subjectRegEx" value="${mail.subjectRegEx}"/>
