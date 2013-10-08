@@ -20,10 +20,12 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<import resource="classpath:nl/ordina/bag/etl/mail/applicationConfig.xml" />
-	<import resource="classpath:nl/ordina/bag/etl/applicationContext.xml" />
-
-	<import resource="classpath:nl/ordina/bag/etl/mail/mutaties.xml" />
-	<import resource="classpath:nl/ordina/bag/etl/mail/scheduler.xml" />
+	<bean id="processMailJob" class="nl.ordina.bag.etl.mail.scheduler.ProcessMailJob" init-method="init" destroy-method="destroy">
+		<property name="enabled" value="${processMailJob.enabled}"/>
+		<property name="delay" value="${processMailJob.delay}"/>
+		<property name="period" value="${processMailJob.period}"/>
+		<property name="mutatiesFileLoader" ref="mutatiesFileMailLoader"/>
+		<property name="mutatiesLoader" ref="mutatiesLoader"/>
+	</bean>
 	
 </beans>

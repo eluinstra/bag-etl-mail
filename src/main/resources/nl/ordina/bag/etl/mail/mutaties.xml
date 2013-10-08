@@ -29,7 +29,7 @@
 		<property name="urlRegEx" value="${mail.urlRegEx}"/>
 	</bean>
 	
-	<bean id="mutatiesFileLoader" class="nl.ordina.bag.etl.mail.loader.MutatiesFileLoaderFactory">
+	<bean id="mutatiesFileMailLoader" class="nl.ordina.bag.etl.mail.loader.MutatiesFileLoaderFactory">
 		<property name="messageHandler" ref="messageHandler"/>
 		<property name="protocol" value="${mail.protocol}"/>
 		<property name="host" value="${mail.host}"/>
