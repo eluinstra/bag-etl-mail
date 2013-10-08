@@ -43,9 +43,12 @@ import javax.xml.bind.JAXBException;
 import nl.ordina.bag.etl.service.MutatiesFileService;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 class MessageHandler
 {
+	protected transient Log logger = LogFactory.getLog(this.getClass());
 	private MutatiesFileService mutatiesFileService;
 	private String fromAddressRegEx;
 	private String subjectRegEx;
@@ -98,11 +101,18 @@ class MessageHandler
 		if (message.getFrom()[0].toString().matches(fromAddressRegEx) && message.getSubject().matches(subjectRegEx))
 		{
 			String content = IOUtils.toString(message.getInputStream());
-			String url = getURL(content); 
-			File mutatiesFile = downloadFile(url);
-			mutatiesFileService.importMutatiesFile(mutatiesFile);
-			//mutatiesFile.delete();
+			String url = getURL(content);
+			if (url != null)
+			{
+				File mutatiesFile = downloadFile(url);
+				mutatiesFileService.importMutatiesFile(mutatiesFile);
+				//mutatiesFile.delete();
+			}
+			else
+				logger.warn("Could not retreive url from message '" + message.getSubject() + "' [" + message.getSentDate() + "]");
 		}
+		else
+			logger.debug("Skipping message '" + message.getSubject() + "' [" + message.getSentDate() + "]");
 	}
 	
 	private String getURL(String content)
