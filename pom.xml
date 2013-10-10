@@ -6,7 +6,7 @@
 	<artifactId>bag-etl-mail</artifactId>
 	<packaging>jar</packaging>
 	<name>BAG ETL Extensions</name>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<description></description>
 	<url>https://</url>
 	<issueManagement>
@@ -41,7 +41,7 @@
 		<dependency>
 			<groupId>nl.ordina.bag.etl</groupId>
 			<artifactId>bag-etl</artifactId>
-			<version>1.0.0-SNAPSHOT</version>
+			<version>1.0.0</version>
 		</dependency>
 		<dependency>
 			<groupId>javax.mail</groupId>
