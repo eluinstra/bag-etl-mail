@@ -5,7 +5,7 @@ mvn clean package
 mvn clean compile assembly:single
 
 ======================
-= Import BAG Mutaties
+= Load BAG Mutaties
 ======================
 Usage: nl.ordina.bag.etl.LoadMutaties
 Description: Downloads mail messages from bag mailbox. Parses the link to the BAGMutatiesFile from mail message and download the BAGMutatiesFile. Parses, validates and imports BAGMutatiesFiles into table bag_mutaties_file. Then while available:
