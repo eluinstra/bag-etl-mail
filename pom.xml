@@ -6,7 +6,7 @@
 	<artifactId>bag-etl-mail</artifactId>
 	<packaging>jar</packaging>
 	<name>BAG ETL Extensions</name>
-	<version>1.0.1-SNAPSHOT</version>
+	<version>1.0.1</version>
 	<description></description>
 	<url>https://</url>
 	<issueManagement>
